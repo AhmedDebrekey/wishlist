@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+</head>
+<body>
+<h1 th:text="${wishlist.title}">Wishlist title</h1>
+
+<p>
+    <strong>Owner:</strong>
+    <span th:text="${wishlist.ownerName}">Owner name</span>
+</p>
+
+<p>
+    <strong>Description:</strong>
+    <span th:text="${wishlist.description}">Description</span>
+</p>
+
+<hr>
+
+<h2>Add a new wish</h2>
+
+<form th:action="@{/wishlist/{id}/wish/create(id=${wishlist.id})}" th:object="${wish}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" required>
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" th:field="*{description}">
+    </div>
+
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" step="0.01" id="price" th:field="*{price}">
+    </div>
+
+    <div>
+        <label for="link">Link:</label>
+        <input type="text" id="link" th:field="*{link}">
+    </div>
+
+    <button type="submit">Add wish</button>
+</form>
+
+<hr>
+
+<h2>Wishes in this wishlist</h2>
+
+<div th:if="${#lists.isEmpty(wishlist.wishes)}">
+    <p>No wishes yet.</p>
+</div>
+
+<div th:unless="${#lists.isEmpty(wishlist.wishes)}">
+    <ul>
+        <li th:each="wish : ${wishlist.wishes}">
+            <strong th:text="${wish.name}">Wish name</strong><br>
+            <span th:text="${wish.description}">Wish description</span><br>
+            <span th:text="${wish.price}">0.0</span> kr<br>
+            <a th:if="${wish.link != null and !#strings.isEmpty(wish.link)}"
+               th:href="${wish.link}"
+               target="_blank">Open link</a><br>
+            <span>Reserved: </span>
+            <span th:text="${wish.reserved}">false</span>
+            <form th:action="@{/wishlist/{wlId}/wish/{wId}/reserve(wlId=${wishlist.id}, wId=${wish.id})}"
+                  method="post" style="display:inline;">
+                <button type="submit" th:text="${wish.reserved} ? 'Reserved ✓' : 'Reserve'">Reserve</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+<p>
+    <a th:href="@{/}">Back to front page</a>
+</p>
+</body>
+</html>

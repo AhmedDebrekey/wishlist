@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist App</title>
+</head>
+<body>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<h1>Create a Wishlist</h1>
+
+<form th:action="@{/wishlist/create}" th:object="${wishlist}" method="post">
+    <div>
+        <label for="ownerName">Your name:</label>
+        <input type="text" id="ownerName" th:field="*{ownerName}" required>
+    </div>
+
+    <div>
+        <label for="title">Wishlist title:</label>
+        <input type="text" id="title" th:field="*{title}" required>
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" th:field="*{description}">
+    </div>
+
+    <button type="submit">Create wishlist</button>
+</form>
+
+<h2>Existing wishlists</h2>
+
+<ul>
+    <li th:each="wishlist : ${wishlists}">
+        <a th:href="@{/wishlist/{id}(id=${wishlist.id})}" th:text="${wishlist.title}">Wishlist title</a>
+        -
+        <span th:text="${wishlist.ownerName}">Owner name</span>
+        -
+        <span th:text="${wishlist.description}">Description</span>
+
+        <form th:action="@{/wishlist/{id}/delete(id=${wishlist.id})}" method="post" style="display:inline; margin-left:10px;">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+
+</body>
+</html>
