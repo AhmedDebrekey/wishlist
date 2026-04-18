@@ -75,6 +75,11 @@ public class WishlistController {
             return "redirect:/";
         }
 
+        String link = wish.getLink();
+        if (link != null && !link.isBlank() && !link.startsWith("http://") && !link.startsWith("https://")) {
+            wish.setLink("https://" + link);
+        }
+
         Wishlist wishlist = optionalWishlist.get();
         wish.setWishlist(wishlist);
         wishRepository.save(wish);
