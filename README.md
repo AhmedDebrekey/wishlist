@@ -19,6 +19,10 @@ EK Mandatory project. Made by Ahmed El-Dabraky
 - MySQL
 - Azure Webapp + Azure Database
 
+## Scrum Board
+
+![Scrum Board](docs/ScrumBoard.png)
+
 ## ER Diagram
 
 ![ER Diagram](docs/Wishlist-ER-Diagram.svg)
